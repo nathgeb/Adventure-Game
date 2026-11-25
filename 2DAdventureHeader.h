@@ -30,24 +30,29 @@ void printStats(Character* player, Character* enemy)
 	cout << "Weapon: " << player->getCurrentWeapon()->getName() << "\t\t\t " << "Weapon: " << enemy->getCurrentWeapon()->getName() << endl;
 }
 
-void addEnemy(SuperArray<Character*>& enemies, SuperArray<string>& enemyNames) //NOTE gonna add name array parameter once i have name array, prolly coords too
+void addEnemy(SuperArray<Character*>& enemies, SuperArray<string>& enemyNames)
 {
+	//use a placeholder if we run out of names (or the names file is empty)
+	string name = "Nameless";
+	if (enemyNames.getSize() > 0)
+	{
+		name = enemyNames.remove(0);
+	}
+
 	int spawnDiff = randNumGen(0, 2);
 	int enemyType = randNumGen(0, 2);
 	if (enemyType == 0)
 	{
-		enemies.pushBack(new Brute(enemyNames[0] + " the Brute", 19 - spawnDiff, 10 - spawnDiff));
+		enemies.pushBack(new Brute(name + " the Brute", 19 - spawnDiff, 10 - spawnDiff));
 	}
 	else if (enemyType == 1)
 	{
-		enemies.pushBack(new Marksman(enemyNames[0] + " the Marksman", 0 + spawnDiff, 10 - spawnDiff));
+		enemies.pushBack(new Marksman(name + " the Marksman", 0 + spawnDiff, 10 - spawnDiff));
 	}
 	else
 	{
-		enemies.pushBack(new Wolf(enemyNames[0] + " the Wolf", 19 - spawnDiff, 0 + spawnDiff));
+		enemies.pushBack(new Wolf(name + " the Wolf", 19 - spawnDiff, 0 + spawnDiff));
 	}
-	//remove the name from the array
-	enemyNames.remove(0);
 }
 
 /**
@@ -62,12 +67,6 @@ bool fight(Character* player, Character* enemy)
 {
 	//clear screen when function starts
 	system("cls");
-
-	//make boolean for valid command
-	bool validCommand = false;
-
-	//make input variable for recieving keyboard input.
-	string input;
 
 	//stay in loop until someone dies
 	while (player->getHealth() > 0 and enemy->getHealth() > 0)
@@ -118,13 +117,17 @@ bool fight(Character* player, Character* enemy)
 		return false;
 	}
 	//if you win
-	else if (enemy->getHealth() == 0)
+	else
 	{
 		//pause the program 
 		Sleep(SLEEP_TIME);
 
-		//tell player they took potions off their opponent
-		cout << "\nYou take " << ICS_YELLOW_TEXT << enemy->getGold() << ICS_WHITE_TEXT << " gold off of " << enemy->getName() << "'s body!\n\n";
+		//tell player they took gold and potions off their opponent
+		cout << "\nYou take " << ICS_YELLOW_TEXT << enemy->getGold() << ICS_WHITE_TEXT << " gold and " << enemy->getPotions() << " potions off of " << enemy->getName() << "'s body!\n\n";
+
+		//transfer gold
+		player->getGold() += enemy->getGold();
+		enemy->getGold() = 0;
 
 		//transfer potions
 		player->getPotions() += enemy->getPotions();

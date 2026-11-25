@@ -42,8 +42,8 @@ public:
 	//default constructor
 	SuperArray()
 		:
-		_array(NULL),				  // the pointer isn't valid yet
 		_maxSize(4),                  // initialize max size to 4
+		_array(NULL),				  // the pointer isn't valid yet
 		_length(0)					  // initialize the length to 0
 	{
 		_array = new T[_maxSize];  //allocate new memory
@@ -52,15 +52,15 @@ public:
 	//copy constructor
 	SuperArray(const SuperArray& otherObj)
 		:
-		_array(NULL),				  // the pointer isn't valid yet
 		_maxSize(otherObj._maxSize),  // copy the maxSize
+		_array(NULL),				  // the pointer isn't valid yet
 		_length(otherObj._length)	  // copy the current length
 	{
 		//allocate memory for super array
 		_array = new T[_maxSize];
 
-		//copy each product
-		for (int i = 0; i < _maxSize; i++)
+		//copy each element
+		for (int i = 0; i < _length; i++)
 		{
 			_array[i] = otherObj._array[i]; //set the value at current position to the respective value in the other array
 		}
@@ -80,6 +80,12 @@ public:
 	//assignment operator
 	void operator=(const SuperArray& otherObj)
 	{
+		//assigning to yourself would delete your own data
+		if (this == &otherObj)
+		{
+			return;
+		}
+
 		//set max size to the max size of the other object
 		_maxSize = otherObj._maxSize;
 
@@ -97,7 +103,7 @@ public:
 		_array = new T[_maxSize];
 
 		//loop through the array
-		for (int i = 0; i < _maxSize; i++)
+		for (int i = 0; i < _length; i++)
 		{
 			//set the value to the corresponding value in the other object
 			_array[i] = otherObj._array[i];

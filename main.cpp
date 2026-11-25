@@ -31,7 +31,6 @@ const char PLAYER = 'P';
 
 const char TOWN = 223;
 const int BOB_DONATE_CAP = 1000;
-const int NUM_OF_WEAPONS = 8;
 const int POTION_PRICE = 30;
 const int TOWN_Y = 3;
 const int TOWN_X = 19;
@@ -188,7 +187,7 @@ int main()
 	weapons.pushBack(new Weapon("claws", 80, 15, 10, 0, "punches"));
 
 	//make the player
-	Character* player = new Player("Nathan", 0, 0, 100, 500, 3, 100, weapons[0]);
+	Character* player = new Player("Nathan", 0, 0, 100, 500, 3, 100, new Weapon(*weapons[0]));
 
 	////read in player stats from file if it exists
 	//string input = "";
@@ -305,7 +304,7 @@ int main()
 
 		//print info under map
 		cout << "Enter " << ICS_BLUE_TEXT << "L" << ICS_WHITE_TEXT << " to open legend, and " << ICS_BLUE_TEXT << "W S A D, " << ICS_WHITE_TEXT << "to move\n";
-		input = _getch();
+		input = tolower(_getch());
 
 		//check if they clicked L
 		if (input == 'l')
@@ -366,7 +365,7 @@ int main()
 		}
 
 		//check if player hit town
-		if (map[player->getYPos()][player->getXPos()] == map[TOWN_Y][TOWN_X])
+		if (map[player->getYPos()][player->getXPos()] == TOWN)
 		{
 			//create boolean to represent if the player is in town or not
 			bool town = true;
@@ -409,10 +408,11 @@ int main()
 						cout << "\t\t--------------\n\n";
 						cout << "\t\tYour gold: " << player->getGold() << endl;
 
-						//loop through weapons (except teeth and fists)
-						for (int i = 2; i < NUM_OF_WEAPONS - 2; i++)
+						//loop through weapons (skip free ones like fists, teeth and claws)
+						for (int i = 0; i < weapons.getSize(); i++)
 						{
-							cout << "\t\t" << weapons[i]->getName() << endl;
+							if (weapons[i]->getPrice() > 0)
+								cout << "\t\t" << weapons[i]->getName() << endl;
 						}
 
 						//approach user and ask them to do something
@@ -428,11 +428,11 @@ int main()
 							cout << "\nName a weapon, I'll bring it out for you!\n";
 							getline(cin, input);
 
-							//loop through weapons (except teeth and fists)
-							for (int i = 0; i < NUM_OF_WEAPONS - 2; i++)
+							//loop through weapons (skip free ones like fists, teeth and claws)
+							for (int i = 0; i < weapons.getSize(); i++)
 							{
 								//check if this weapon was chosen
-								if (input == weapons[i]->getName())
+								if (input == weapons[i]->getName() and weapons[i]->getPrice() > 0)
 								{
 									//print stats
 									weapons[i]->print();
@@ -527,9 +527,6 @@ int main()
 					//the dealer's minimum number in blackjack
 					const int DEALER_MIN_NUM = 17;
 
-					//variable to store player's name
-					string playerName;
-
 					//variable to store bet value
 					int bet = 10;
 
@@ -548,7 +545,7 @@ int main()
 						cout << "-------------Welcome!---------------\n";
 
 						//print player stats
-						cout << "Name: " << playerName << endl;
+						cout << "Name: " << player->getName() << endl;
 						cout << "Money: " << player->getGold() << endl;
 						cout << "Bet: " << bet << endl;
 
@@ -576,7 +573,7 @@ int main()
 								cout << "-------------Welcome!---------------\n";
 
 								//print player stats
-								cout << "Name: " << playerName << endl;
+								cout << "Name: " << player->getName() << endl;
 								cout << "Money: " << player->getGold() << endl;
 								cout << "Bet: " << bet << endl;
 
@@ -741,7 +738,7 @@ int main()
 								cout << "-------------Welcome!---------------\n";
 
 								//print player stats
-								cout << "Name: " << playerName << endl;
+								cout << "Name: " << player->getName() << endl;
 								cout << "Money: " << player->getGold() << endl;
 								cout << "Bet: " << bet << endl;
 
@@ -869,7 +866,7 @@ int main()
 
 											}
 											//tie
-											else if (sum = computerSum)
+											else
 											{
 												//tell player it's a push
 												cout << "push!" << endl;
@@ -970,8 +967,7 @@ int main()
 							else if (chance == 2)
 							{
 								//user hears the mayor
-								ICS_BLACK_BACKGROUND;
-								cout << "You hear a big booming laugh, a responding voice stutters something about paying a man back later.\n You turn and see the mayor in the Casino! He seems to be in a tight situation...\n";
+									cout << "You hear a big booming laugh, a responding voice stutters something about paying a man back later.\n You turn and see the mayor in the Casino! He seems to be in a tight situation...\n";
 								system("pause");
 							}
 							//event 4
@@ -992,7 +988,7 @@ int main()
 						else
 						{
 							//print invalid message
-							cout << "That's an invalid command. Valid commands are (slots, blackjack, talk)\n";
+							cout << "That's an invalid command. Valid commands are (slots, blackjack, talk, leave)\n";
 							system("pause");
 						}
 					}
@@ -1022,7 +1018,7 @@ int main()
 							if (player->getGold() >= POTION_PRICE)
 							{
 								//subtract gold and add potion
-								player->getGold() -= 30;
+								player->getGold() -= POTION_PRICE;
 								player->getPotions()++;
 
 								//print message to tell player thay got it
@@ -1080,7 +1076,7 @@ int main()
 				else
 				{
 					//print error message
-					cout << ICS_BLACK_TEXT << "Invalid input, valid inputs are " << ICS_RED_TEXT << "shop, casino, " << ICS_BLACK_TEXT << "or" << ICS_RED_TEXT << " lounge\n" << ICS_BLACK_TEXT;
+					cout << ICS_BLACK_TEXT << "Invalid input, valid inputs are " << ICS_RED_TEXT << "shop, casino, brewery, " << ICS_BLACK_TEXT << "or" << ICS_RED_TEXT << " leave\n" << ICS_BLACK_TEXT;
 
 					//pause
 					system("pause");
@@ -1151,11 +1147,19 @@ int main()
 					//pause
 					ICS_sleep(SLEEP_TIME);
 
-					//add the enemy's name back to the array of names
-					enemyNames.pushBack(enemies[i]->getName());
+					//add the enemy's name back to the array of names (without the " the Brute" part)
+					string name = enemies[i]->getName();
+					name = name.substr(0, name.find(" the "));
+					if (name != "Nameless")
+					{
+						enemyNames.pushBack(name);
+					}
 
-					//remove the enemy from the game
-					enemies.remove(i);
+					//remove the enemy from the game and free its memory
+					delete enemies.remove(i);
+
+					//everything shifted left, so check this spot again
+					i--;
 				}
 			}
 		}
