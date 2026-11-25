@@ -18,18 +18,11 @@ using namespace std;       //include standard namespace
 
 
 /**
-* prints the fighter's stats
+* adds a random enemy (brute, marksman or wolf) near one of the map's corners
 *
-* @param player             The player's strucutre
-* @param enemy              The enemy's structure
+* @param enemies            The array of enemies to add to
+* @param enemyNames         The pool of unused names
 */
-void printStats(Character* player, Character* enemy)
-{
-	//print stats
-	cout << "Your health:  " << player->getHealth() << "/" << player->getMaxHealth() << "\t\t " << enemy->getName() << " health: " << enemy->getHealth() << "/" << enemy->getMaxHealth() << endl;
-	cout << "Weapon: " << player->getCurrentWeapon()->getName() << "\t\t\t " << "Weapon: " << enemy->getCurrentWeapon()->getName() << endl;
-}
-
 void addEnemy(SuperArray<Character*>& enemies, SuperArray<string>& enemyNames)
 {
 	//use a placeholder if we run out of names (or the names file is empty)
