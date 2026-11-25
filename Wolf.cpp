@@ -7,27 +7,24 @@
 
 
 /**
-* Constructor of a Character
+* Constructor of a Wolf
 **/
 Wolf::Wolf(std::string name, int xPos, int yPos)
 	:
 	Enemy(name, xPos, yPos, 0, 0, 0, 0, nullptr)
 {
-	//randomize the health for a Wolf (they're strong)
+	//randomize the health for a Wolf (they're tough)
 	int newHealth = randNumGen(120, 150);
 	_health = newHealth;
 	_maxHealth = newHealth;
 
-	//Gold stays at 0 they're animals
+	//gold and potions stay at 0, they're animals
 
-	//Gold stays at 0 they're animals
-	 
-	
 	//randomize the weapon for the Wolf
 	int newWeapon = randNumGen(0, 1);
 	if (newWeapon == 0)
 	{
-		_currentWeapon = new Weapon("claws", 80, 15, 10, 0, "punches");
+		_currentWeapon = new Weapon("claws", 80, 15, 10, 0, "scratches");
 	}
 	else
 	{

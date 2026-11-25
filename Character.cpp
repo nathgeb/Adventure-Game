@@ -32,8 +32,13 @@ Character::Character(const Character& other)
 	_gold(other._gold),
 	_potions(other._potions),
 	_maxHealth(other._maxHealth),
-	_currentWeapon(other._currentWeapon)
+	_currentWeapon(nullptr)
 {
+	//give the copy its own weapon so both don't delete the same one
+	if (other._currentWeapon != nullptr)
+	{
+		_currentWeapon = new Weapon(*other._currentWeapon);
+	}
 
 }
 
@@ -61,6 +66,12 @@ Character::~Character()
 **/
 void Character::operator=(const Character& other)
 {
+	//assigning to yourself would delete your own weapon
+	if (this == &other)
+	{
+		return;
+	}
+
 	_name = other._name;
 	_xPos = other._xPos;
 	_yPos = other._yPos;
@@ -69,7 +80,13 @@ void Character::operator=(const Character& other)
 	_potions = other._potions;
 	_maxHealth = other._maxHealth;
 	delete _currentWeapon;
-	_currentWeapon = other._currentWeapon;
+	_currentWeapon = nullptr;
+
+	//make our own copy of their weapon
+	if (other._currentWeapon != nullptr)
+	{
+		_currentWeapon = new Weapon(*other._currentWeapon);
+	}
 }
 
 void Character::setWeapon(const Weapon* newWeapon)
@@ -123,7 +140,7 @@ void Character::drinkPotion()
 	//if they have no potions
 	else if (_potions == 0)
 	{
-		//let them know they have full potions
+		//let them know they're out of potions
 		cout << _name << " tries to drink a potion but has none!\n\n";
 
 		//exit function
@@ -137,7 +154,7 @@ void Character::drinkPotion()
 * @param weapons[]       The weapons to look at.
 * @param x               Index of new weapon
 */
-void Character::buyWeapon(SuperArray<Weapon*> weapons, int x)
+void Character::buyWeapon(SuperArray<Weapon*>& weapons, int x)
 {
 	//check if they don't have a weapon
 	if (_currentWeapon->getName() == weapons[0]->getName())
@@ -157,7 +174,6 @@ void Character::buyWeapon(SuperArray<Weapon*> weapons, int x)
 		//if they can't afford it
 		else
 		{
-			//
 			cout << "You can't afford that!\n";
 		}
 	}

@@ -7,7 +7,7 @@
 
 
 /**
-* Constructor of a Character
+* Constructor of a Brute
 **/
 Brute::Brute(std::string name, int xPos, int yPos)
 	:

@@ -7,7 +7,7 @@
 
 
 /**
-* Constructor of a Character
+* Constructor of a Marksman
 **/
 Marksman::Marksman(std::string name, int xPos, int yPos)
 	:
@@ -26,7 +26,7 @@ Marksman::Marksman(std::string name, int xPos, int yPos)
 	int newPotions = randNumGen(4, 7);
 	_potions = newPotions;
 
-	//randomize the weapon for the brutes (simple weapons)
+	//randomize the weapon for the marksman (ranged weapons)
 	int newWeapon = randNumGen(0, 2);
 
 	if (newWeapon == 0)

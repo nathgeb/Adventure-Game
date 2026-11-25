@@ -22,11 +22,11 @@ void Enemy::takeTurn(Character* victim)
 		//make the drink number, this is a number from 1 to 100, if it's less than or equal to the drinkchance then drink function is executed
 		int drink = randNumGen(1, 100);
 
-		//chance of trying to drink potion if health is below 50% and they have a potion
-		if (_health < (_maxHealth / 2))
+		//chance of trying to drink potion if health is below 30% and they have a potion
+		if (_health < (_maxHealth * 0.3))
 		{
 			//check if it's below or equal to the drink chance
-			if (drink <= DRINK_CHANCE)
+			if (drink <= LOW_HP_DRINK_CHANCE)
 			{
 				//execute drinkPotion
 				drinkPotion();
@@ -37,11 +37,11 @@ void Enemy::takeTurn(Character* victim)
 				attack(victim);
 			}
 		}
-		//chance of trying to drink potion if health is below 30% and they have a potion
-		else if (_health < (_maxHealth * 0.3))
+		//chance of trying to drink potion if health is below 50% and they have a potion
+		else if (_health < (_maxHealth / 2))
 		{
 			//check if it's below or equal to the drink chance
-			if (drink <= LOW_HP_DRINK_CHANCE)
+			if (drink <= DRINK_CHANCE)
 			{
 				//execute drinkPotion
 				drinkPotion();

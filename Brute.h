@@ -9,7 +9,6 @@ class Brute : public Enemy
 	**/
 	Brute(std::string name, int xPos, int yPos);
 
-	Brute() = default;
-	//do i need destructor?
+	//no destructor needed, Character's virtual destructor deletes the weapon
 };
 

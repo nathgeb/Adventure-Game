@@ -12,12 +12,12 @@ protected:
 
 	std::string _name = "";				  //the Characters name
 	int _xPos = 0;						  //which column the Character is on
-	int _yPos = 0;						  //which row the player is on
-	int _health = 0;				      //how much health the player has
-	int _gold = 0;						  //how much gold the player has
+	int _yPos = 0;						  //which row the Character is on
+	int _health = 0;				      //how much health the Character has
+	int _gold = 0;						  //how much gold the Character has
 	int _potions = 0;					  //how many potions they have
 	int _maxHealth = 0;			   	   	  //their max health
-	Weapon* _currentWeapon;				  //their current weapon
+	Weapon* _currentWeapon = nullptr;	  //their current weapon (the Character owns it and deletes it)
 
 public:
 
@@ -37,8 +37,8 @@ public:
 	virtual ~Character();
 
 	/**
-* Operator for Character
-**/
+	* Assignment operator for Character
+	**/
 	void operator=(const Character& other);
 	
 	/**
@@ -63,7 +63,7 @@ public:
 	* @param weapons[]       The weapons to look at.
 	* @param x               Index of new weapon
 	*/
-	void buyWeapon(SuperArray<Weapon*> weapons, int x);
+	void buyWeapon(SuperArray<Weapon*>& weapons, int x);
 
 	void setWeapon(const Weapon* newWeapon);
 

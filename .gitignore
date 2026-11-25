@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+# Compiled output when building outside Visual Studio
+*.exe
+*.o

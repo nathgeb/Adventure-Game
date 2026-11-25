@@ -13,8 +13,6 @@ protected:
 
 public:
 
-	Weapon() = default;//i forget why i put this here?
-
 	Weapon(std::string name, int hitChance, int maxAttack, int minAttack, int price, std::string attackName);
 		
 	Weapon(const Weapon& other);

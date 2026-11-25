@@ -1,6 +1,5 @@
 #pragma once
-#include <time.h>
-#include <random>
+#include <cstdlib>   //for rand
 
 /**
 *generates a random number
