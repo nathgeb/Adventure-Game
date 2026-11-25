@@ -5,11 +5,10 @@ class Wolf : public Enemy
 public:
 
 	/**
-	* Constructor of a Marksman
+	* Constructor of a Wolf
 	**/
 	Wolf(std::string name, int xPos, int yPos);
 
-	Wolf() = default;
-	//do i need destructor?
+	//no destructor needed, Character's virtual destructor deletes the weapon
 };
 

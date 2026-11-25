@@ -140,7 +140,7 @@ void Character::drinkPotion()
 	//if they have no potions
 	else if (_potions == 0)
 	{
-		//let them know they have full potions
+		//let them know they're out of potions
 		cout << _name << " tries to drink a potion but has none!\n\n";
 
 		//exit function
@@ -174,7 +174,6 @@ void Character::buyWeapon(SuperArray<Weapon*>& weapons, int x)
 		//if they can't afford it
 		else
 		{
-			//
 			cout << "You can't afford that!\n";
 		}
 	}

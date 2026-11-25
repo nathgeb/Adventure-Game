@@ -51,8 +51,8 @@ void addEnemy(SuperArray<Character*>& enemies, SuperArray<string>& enemyNames)
 /**
 * makes two people fight
 *
-* @param player             The player's strucutre
-* @param enemy              The enemy's structure
+* @param player             The player
+* @param enemy              The enemy
 *
 * @returns                  True if the player won, false otherwise
 */
